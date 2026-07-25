@@ -2,8 +2,9 @@
 # Currently UNDER REVIEW (verified_date empty). Per the governance pilot
 # exception (docs/governance.md, 2026-07-24) this first run is self-reviewed
 # to exercise the mechanics; it is not an independent acceptance.
-# Before review: submit the v6.0.1 tag commit (79fcf30), not the tip of main,
-# and land a CITATION.cff in the repo.
+# Pre-submission prep DONE 2026-07-25: CITATION.cff landed and v6.0.2 tagged
+# (github.com/brianmanderson/Dicom_RT_and_Images_to_Mask, commit 8e2d5c9).
+# The tagged tree passes phi_scan, vendor_binary_scan, and submission_lint.
 tool_name: "DicomRTTool"
 live_repo: "https://github.com/brianmanderson/Dicom_RT_and_Images_to_Mask"
 contact:
@@ -11,7 +12,7 @@ contact:
   email: ""              # TODO(Brian)
   institution: "University of California San Diego"
   orcid: "https://orcid.org/0000-0002-2748-1444"
-reviewed_commit: ""      # set at review — target the v6.0.1 tag commit 79fcf30
+reviewed_commit: "8e2d5c9297fd528dd8b89e47a000df593439d05f"   # = tag v6.0.2
 frozen_fork: ""          # at acceptance: medphys-code-exchange/frozen-dicomrttool
 tier: "2"
 license: "GPL-3.0-or-later"

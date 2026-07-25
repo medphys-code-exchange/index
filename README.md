@@ -1,7 +1,9 @@
 <!--
-  Front page of the org `index` repo.
   The two tables below are GENERATED — do not hand-edit between the markers.
   Regenerate: python scripts/build_index.py   (CI check: --check)
+  This page is mirrored from the maintainers' upstream repo; edits made
+  directly in the public repo are overwritten on the next sync. To correct
+  a listing, edit the entry under entries/ or open an issue.
 -->
 # Medical Physics Community Code Exchange
 
