@@ -1,0 +1,22 @@
+# Per-submission metadata — completed at intake, finalized at acceptance.
+tool_name: ""
+live_repo: ""            # author-owned repo URL (hybrid architecture)
+contact:                 # submitting author — editor should never reconstruct this from the live repo
+  name: ""
+  email: ""
+  institution: ""
+  orcid: ""              # optional — https://orcid.org/XXXX-XXXX-XXXX-XXXX
+reviewed_commit: ""      # exact SHA the badge certifies — filled by editor
+frozen_fork: ""          # org mirror URL — filled at acceptance
+tier: ""                 # 1 | 2 | C
+license: ""              # SPDX id; copyleft flagged on index
+languages: []            # e.g. [python, csharp]
+category: []             # e.g. [dicom, esapi, qa, segmentation, scheduling]
+platform_matrix:
+  runtime: ""            # e.g. Python 3.12 / .NET Framework 4.8
+  vendor: ""             # e.g. Eclipse 18.0 / ESAPI 18.0 — required for vendor-API code
+test_data: ""            # bundled-synthetic | shared-phantom | public (TCIA etc.)
+doi: ""                  # Zenodo DOI — minted AT ACCEPTANCE via org integration, Tier 2/C only (Tier 1 gets none); back-filled here and into CITATION.cff
+verified_date: ""        # YYYY-MM-DD — drives the 24-month staleness flag
+reviewers: []            # named — public credit
+review_issue: ""         # URL of the open-review issue thread

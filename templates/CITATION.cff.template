@@ -1,0 +1,17 @@
+# Replace bracketed values. Validate at https://citation-file-format.github.io
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "[Tool name]"
+authors:
+  - family-names: "[Family name]"
+    given-names: "[Given names]"
+    orcid: "https://orcid.org/[XXXX-XXXX-XXXX-XXXX]"
+    affiliation: "[Institution]"
+version: "[e.g. 1.0.0 — must match the tagged release under review]"
+doi: "[Zenodo DOI — added at release]"
+date-released: "[YYYY-MM-DD]"
+repository-code: "[https://github.com/you/tool]"
+license: "[SPDX id, e.g. Apache-2.0]"
+keywords:
+  - medical physics
+  - radiation oncology

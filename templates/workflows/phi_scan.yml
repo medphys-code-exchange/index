@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# TEMPLATE — drop this file into a submission's .github/workflows/ directory.
+# The index org is `medphys-code-exchange`; the scanners live in its `index`
+# repo. Before use, replace:
+#   PIN_TO_RELEASE_TAG — the current scanner release tag from
+#                        github.com/medphys-code-exchange/index/releases.
+# Submission CI must pin SCANNER_REF to a tagged scanner release, never a
+# branch: an unpinned ref makes scan results irreproducible, and a compromised
+# or edited default branch would silently change the code that runs inside
+# every submission's CI (supply-chain integrity).
+# ---------------------------------------------------------------------------
+name: PHI Scan
+on: [push, pull_request]
+env:
+  # Tagged scanner release to fetch — replace once the org publishes releases.
+  SCANNER_REF: PIN_TO_RELEASE_TAG
+jobs:
+  phi-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      # phi_scan.py needs pydicom to read DICOM headers.
+      - run: pip install pydicom
+      - name: Fetch scanner (pinned)
+        run: curl -sSfL -o phi_scan.py "https://raw.githubusercontent.com/medphys-code-exchange/index/${SCANNER_REF}/scripts/phi_scan.py"
+      - name: Scan
+        run: python phi_scan.py .

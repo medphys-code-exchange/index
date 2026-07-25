@@ -1,0 +1,72 @@
+# Structural checks: required files present. (DCO enforced via the DCO app.)
+name: Submission Lint
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required files (Tier 1 floor)
+        run: |
+          fail=0
+          for f in README.md CITATION.cff; do
+            [ -f "$f" ] || { echo "MISSING: $f"; fail=1; }
+          done
+          # License file, common conventions: LICENSE, LICENSE.txt/.md,
+          # COPYING, COPYING.txt (GPL projects ship LICENSE.txt or COPYING).
+          # Looped existence test (not `ls`, which returns non-zero under
+          # -eo pipefail when any listed name is absent). A non-matching
+          # glob stays literal and simply fails [ -e ].
+          have_license=0
+          for f in LICENSE LICENSE.* COPYING COPYING.*; do
+            if [ -e "$f" ]; then have_license=1; break; fi
+          done
+          if [ "$have_license" -eq 0 ]; then
+            echo "MISSING: LICENSE (accepts LICENSE, LICENSE.*, COPYING, COPYING.*)"
+            fail=1
+          fi
+          # Dependency manifests may live anywhere in the tree — Visual Studio
+          # convention puts .csproj in a project subdirectory, not the repo root.
+          # Prune vendored/virtualenv trees: a committed .venv or node_modules
+          # is full of other projects' manifests and would mask a missing one.
+          manifests=$(find . \( -name .git -o -name .venv -o -name venv \
+              -o -name node_modules -o -name site-packages \) -prune -o -type f \( \
+              -name 'requirements*.txt' \
+              -o -name 'pyproject.toml' \
+              -o -name 'setup.py' \
+              -o -name 'setup.cfg' \
+              -o -name 'environment.yml' \
+              -o -name 'Pipfile' \
+              -o -name 'Pipfile.lock' \
+              -o -name 'package.json' \
+              -o -name '*.csproj' \
+              -o -name 'packages.config' \
+            \) -print)
+          if [ -z "$manifests" ]; then
+            echo "MISSING: pinned dependency manifest (searched recursively for requirements*.txt, pyproject.toml, setup.py, setup.cfg, environment.yml, Pipfile, Pipfile.lock, package.json, *.csproj, packages.config)"
+            fail=1
+          fi
+          exit $fail
+      - name: OSI license check (CITATION.cff)
+        run: |
+          # Reads the SPDX id from CITATION.cff's 'license:' field and checks it
+          # against a list of common OSI-approved ids. An unrecognized id is not
+          # necessarily non-OSI — the step fails so a reviewer verifies manually.
+          if [ ! -f CITATION.cff ]; then
+            echo "SKIP: CITATION.cff missing (reported by the required-files step)"
+            exit 0
+          fi
+          license=$(sed -n 's/^license:[[:space:]]*//p' CITATION.cff | head -n 1 | tr -d "'\"\r" | sed 's/[[:space:]]*$//')
+          if [ -z "$license" ]; then
+            echo "FAIL: no 'license:' field found in CITATION.cff"
+            exit 1
+          fi
+          osi_ids="Apache-2.0 MIT BSD-2-Clause BSD-3-Clause GPL-2.0-only GPL-2.0-or-later GPL-3.0-only GPL-3.0-or-later LGPL-2.1-only LGPL-2.1-or-later LGPL-3.0-only LGPL-3.0-or-later MPL-2.0 EPL-2.0 AGPL-3.0-only AGPL-3.0-or-later ISC Zlib BSL-1.0 Artistic-2.0 EUPL-1.2"
+          for id in $osi_ids; do
+            if [ "$license" = "$id" ]; then
+              echo "OK: license '$license' is on the known-OSI list"
+              exit 0
+            fi
+          done
+          echo "FAIL: license '$license' not in known-OSI list - reviewer must verify OSI approval manually"
+          exit 1

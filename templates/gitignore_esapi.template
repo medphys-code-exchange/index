@@ -1,0 +1,16 @@
+# ESAPI submission .gitignore — vendor binaries must never be committed.
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+*.msi
+*.user
+*.suo
+.vs/
+packages/
+# Vendor assemblies are referenced from the local Eclipse install:
+#   <Reference Include="VMS.TPS.Common.Model.API">
+#     <HintPath>$(ESAPI_PATH)\VMS.TPS.Common.Model.API.dll</HintPath>
+#   </Reference>
+# Never add exceptions for VMS.*, Varian*, RayStation* files.

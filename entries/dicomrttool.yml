@@ -1,0 +1,27 @@
+# Pilot submission — the first end-to-end pipeline test (D12).
+# Currently UNDER REVIEW (verified_date empty). Per the governance pilot
+# exception (docs/governance.md, 2026-07-24) this first run is self-reviewed
+# to exercise the mechanics; it is not an independent acceptance.
+# Before review: submit the v6.0.1 tag commit (79fcf30), not the tip of main,
+# and land a CITATION.cff in the repo.
+tool_name: "DicomRTTool"
+live_repo: "https://github.com/brianmanderson/Dicom_RT_and_Images_to_Mask"
+contact:
+  name: "Brian M. Anderson"
+  email: ""              # TODO(Brian)
+  institution: "University of California San Diego"
+  orcid: "https://orcid.org/0000-0002-2748-1444"
+reviewed_commit: ""      # set at review — target the v6.0.1 tag commit 79fcf30
+frozen_fork: ""          # at acceptance: medphys-code-exchange/frozen-dicomrttool
+tier: "2"
+license: "GPL-3.0-or-later"
+languages: [python]
+category: [dicom, segmentation]
+platform_matrix:
+  runtime: "Python 3.10-3.13"
+  vendor: ""
+test_data: "bundled-synthetic"
+doi: ""                  # minted at acceptance
+verified_date: ""        # empty -> shown under "Under review"
+reviewers: []            # pilot self-review (see governance pilot exception)
+review_issue: ""         # created once the org index repo exists

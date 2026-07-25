@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you reference this program design or its review framework, please cite it as below."
+title: "Medical Physics Community Code Exchange (working title): program scaffold and review framework"
+type: software
+authors:
+  - family-names: Anderson
+    given-names: Brian M.
+    affiliation: "University of California San Diego, Radiation Medicine and Applied Sciences"
+    orcid: "https://orcid.org/0000-0002-2748-1444"
+version: 0.1.0
+date-released: "2026-07-23"
+license: Apache-2.0
+repository-code: "https://github.com/medphys-code-exchange/index"
+abstract: >-
+  Design record, tiered acceptance criteria, reviewer checklists, submission
+  templates, and PHI/vendor-binary scanners for a proposed curated,
+  peer-reviewed index of open-source software for radiation oncology and
+  medical physics.

@@ -1,0 +1,147 @@
+name: Tool Submission
+description: Submit a tool for review and inclusion in the index
+title: "[Submission] <tool name>"
+labels: ["submission", "pre-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Review happens openly in this issue (JOSS-style). Before submitting:
+        read docs/tiers.md, run scripts/phi_scan.py and
+        scripts/vendor_binary_scan.py locally, and read docs/ip_guidance.md —
+        your DCO sign-off attests you have the right to contribute this code.
+
+        **No DOI is needed to submit.** For Tier 2 and Tier C, the Zenodo DOI
+        is minted at acceptance through the org's Zenodo integration and
+        back-filled into your CITATION.cff; Tier 1 acceptances receive an
+        index entry and badge only. What Tier 2/C submissions do need at
+        review time is a tagged release matching the commit under review
+        (see "Release tag" below).
+
+        **Tier C submitters:** the Tier C attestation checkbox at the bottom
+        of this form is mandatory when you request Tier C. Issue forms cannot
+        require it conditionally, so editor triage will return Tier C
+        submissions that leave it unchecked.
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      description: The name the index entry and badge will carry
+    validations:
+      required: true
+  - type: input
+    id: contact_name
+    attributes:
+      label: Contact name
+      description: Submitting author (as it should appear in the metadata record)
+    validations:
+      required: true
+  - type: input
+    id: contact_email
+    attributes:
+      label: Contact email
+      description: Where the editor reaches you about this review
+    validations:
+      required: true
+  - type: input
+    id: contact_institution
+    attributes:
+      label: Institution
+      description: Submitting institution (used for reviewer-independence checks)
+    validations:
+      required: true
+  - type: input
+    id: contact_orcid
+    attributes:
+      label: ORCID
+      description: Optional but recommended (used in the metadata record and CITATION.cff)
+    validations:
+      required: false
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL
+      description: Your live, author-owned repository
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA for review
+      description: The exact commit you are submitting (badge certifies this SHA)
+    validations:
+      required: true
+  - type: input
+    id: release_tag
+    attributes:
+      label: Release tag
+      description: >-
+        Git tag of the release matching the commit above. Optional for Tier 1;
+        REQUIRED for Tier 2 and Tier C — the tagged release must exist at
+        review time, and the Zenodo DOI is minted against it at acceptance.
+    validations:
+      required: false
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Requested tier
+      options: ["Tier 1 (research)", "Tier 2 (rigorous)", "Tier C (clinical-adjacent)"]
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: What does the tool do, and who is it for?
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License (SPDX id)
+    validations:
+      required: true
+  - type: dropdown
+    id: languages
+    attributes:
+      label: Language(s)
+      description: Select all that apply; if "other", name the language in the purpose field
+      multiple: true
+      options: ["python", "csharp", "matlab", "other"]
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Primary category for the index
+      options: ["dicom", "esapi", "raystation", "qa", "imaging", "dosimetry", "other"]
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform matrix
+      description: >-
+        Runtime + vendor versions, e.g. "Python 3.12; Eclipse 18.0 / ESAPI 18.0".
+        Optional for plain Tier 1 tools, but MANDATORY for Tier 2, Tier C, and
+        any vendor-API (ESAPI/RayStation) submission.
+    validations:
+      required: false
+  - type: dropdown
+    id: testdata
+    attributes:
+      label: Test data source
+      options: ["Bundled synthetic", "Shared phantom dataset", "Public (TCIA or similar)"]
+    validations:
+      required: true
+  - type: checkboxes
+    id: attestations
+    attributes:
+      label: Attestations
+      options:
+        - label: "DCO attestation — I have the right to contribute the entire tree at the commit above under the declared license, and I will sign every commit from today forward (`git commit -s`). Existing history does not need signing (R-11). See docs/ip_guidance.md."
+          required: true
+        - label: No PHI and no vendor binaries are present (local scans pass)
+          required: true
+        - label: For Tier C — validation dataset and commissioning checklist are included (mandatory if Tier C is selected above; enforced at editor triage)
+          required: false
