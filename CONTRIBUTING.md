@@ -1,7 +1,7 @@
 # Contributing a tool
 
 **The full contributor guide lives in its own repo:
-[Contributing-To-The-Community](https://github.com/brianmanderson/Contributing-To-The-Community).**
+[Contributing-To-The-Community](https://github.com/medphys-code-exchange/Contributing-To-The-Community).**
 Start there — it covers repository hygiene (no PHI, no vendor binaries), the
 tier requirements, licensing, IP and DCO sign-off, the pre-submission
 self-check, and what review looks like.
