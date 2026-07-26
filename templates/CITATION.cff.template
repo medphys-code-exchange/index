@@ -8,7 +8,10 @@ authors:
     orcid: "https://orcid.org/[XXXX-XXXX-XXXX-XXXX]"
     affiliation: "[Institution]"
 version: "[e.g. 1.0.0 — must match the tagged release under review]"
-doi: "[Zenodo DOI — added at release]"
+# Leave empty when you submit — the Exchange back-fills it at acceptance.
+# It will be the Zenodo CONCEPT DOI, which always resolves to your newest
+# version, so this line stays correct as you keep releasing (R-12).
+doi: "[Zenodo concept DOI — back-filled at acceptance; leave as-is]"
 date-released: "[YYYY-MM-DD]"
 repository-code: "[https://github.com/you/tool]"
 license: "[SPDX id, e.g. Apache-2.0]"

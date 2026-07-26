@@ -26,10 +26,13 @@
    comments, and the contributor responds with fixes.
 5. On acceptance: editor records commit hash + tier + platform matrix, org
    forks the frozen snapshot; for Tier 2 and Tier C the Zenodo DOI is minted
-   at acceptance via the org's Zenodo integration and back-filled into
-   `CITATION.cff` and the submission metadata record (Tier 1 receives no
-   DOI — index entry + badge only). Index entry + badge go live, reviewers
-   are named in the index entry.
+   at acceptance via the org's Zenodo integration (Tier 1 receives no DOI —
+   index entry + badge only). Zenodo mints two DOIs and they are used
+   differently (R-12): the **version** DOI, which resolves to the exact
+   reviewed release, goes in the submission metadata record; the **concept**
+   DOI, which resolves to the author's newest version, is back-filled into
+   their `CITATION.cff` so it stays correct as they keep releasing. Index
+   entry + badge go live, reviewers are named in the index entry.
 
 ## Service levels
 
