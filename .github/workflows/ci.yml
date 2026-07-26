@@ -1,0 +1,37 @@
+# CI for the index repo itself.
+#
+# This is NOT the submission CI — the workflows a submission drops into its own
+# repo live in templates/workflows/ and fetch the scanners from a pinned release
+# tag here. This file gates THIS repo: the scanners and the index generator are
+# the two things every submission depends on, so a broken scanner or a stale
+# index page must not sit on main unnoticed.
+#
+# Deliberately does NOT run phi_scan.py over this repo. tests/ carries
+# PHI-shaped fixture strings on purpose; the scanners are built to be pointed at
+# a submission checkout, not at the repo that ships them. The pytest suite is
+# what proves they still behave.
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install dependencies
+        # pydicom: phi_scan + the phantom generator. numpy: the generator.
+        # PyYAML: build_index and the entry records.
+        run: pip install pytest pydicom numpy pyyaml
+
+      - name: Scanner and generator test suite
+        run: python -m pytest tests/ -q
+
+      - name: Index page is current
+        # Fails if entries/ changed without regenerating the page. Fix with:
+        #   python scripts/build_index.py
+        run: python scripts/build_index.py --check
