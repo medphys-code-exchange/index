@@ -16,7 +16,12 @@ platform_matrix:
   runtime: ""            # e.g. Python 3.12 / .NET Framework 4.8
   vendor: ""             # e.g. Eclipse 18.0 / ESAPI 18.0 — required for vendor-API code
 test_data: ""            # bundled-synthetic | shared-phantom | public (TCIA etc.)
-doi: ""                  # Zenodo DOI — minted AT ACCEPTANCE via org integration, Tier 2/C only (Tier 1 gets none); back-filled here and into CITATION.cff
+# Zenodo VERSION DOI (R-12) — the one that resolves to the exact reviewed
+# release, NOT the concept DOI. Minted AT ACCEPTANCE via the org integration,
+# Tier 2/C only (Tier 1 gets none). The author's CITATION.cff gets the CONCEPT
+# DOI instead, so it stays correct as they keep releasing. A re-review mints a
+# new version DOI; update this field, never the concept DOI.
+doi: ""
 verified_date: ""        # YYYY-MM-DD — drives the 24-month staleness flag
 reviewers: []            # named — public credit
 review_issue: ""         # URL of the open-review issue thread

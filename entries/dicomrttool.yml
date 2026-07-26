@@ -22,7 +22,7 @@ platform_matrix:
   runtime: "Python 3.10-3.13"
   vendor: ""
 test_data: "bundled-synthetic"
-doi: ""                  # minted at acceptance
+doi: ""                  # version DOI, minted at acceptance (R-12)
 verified_date: ""        # empty -> shown under "Under review"
 reviewers: []            # pilot self-review (see governance pilot exception)
 review_issue: ""         # created once the org index repo exists
