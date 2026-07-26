@@ -1,0 +1,16 @@
+# DCO app configuration — https://github.com/dcoapp/app
+#
+# Remediation commits are enabled deliberately. Sign-off is going-forward, not
+# retroactive (R-11), and contributors are never asked to rewrite published
+# history. A follow-up remediation commit is how a missed `git commit -s` gets
+# fixed without a rebase; with this off, the only way to clear a failing check
+# would be history rewriting, which policy forbids us from asking for.
+#
+# thirdParty stays off: sign-off is a personal legal attestation, and letting
+# one person sign on another's behalf would undercut that.
+#
+# `require.members` is left at its default (true) so maintainers' own commits
+# are checked too — this matters while the editor is also a submitting author.
+allowRemediationCommits:
+  individual: true
+  thirdParty: false
