@@ -21,8 +21,23 @@ Requirements (all bot-checkable except R1.6):
   least one fully worked example a stranger can run end-to-end.
 - **R1.2 License** — a `LICENSE` file with an OSI-approved license.
 - **R1.3 Citation** — a valid `CITATION.cff` (template provided).
-- **R1.4 Pinned dependencies** — `requirements.txt` with versions, `.csproj`
-  with package versions, or equivalent lockfile.
+- **R1.4 Declared dependencies** (R-13) — every runtime dependency carries a
+  version relation. **A bare name is never acceptable.** Beyond that:
+  - **Applications** (anything a user *runs*): exact pins or a lockfile.
+  - **Libraries** (anything a user *imports*): a lower bound is required
+    (`>=`), set to the oldest version actually tested. Upper bounds are
+    permitted but not required — use one only for a known incompatibility,
+    never as a default, because routine capping breaks downstream resolution.
+    `~=` is acceptable.
+  - **Either kind:** direct VCS references pinned to a commit SHA or tag
+    (`pkg @ git+https://…` with no revision resolves to whatever the default
+    branch holds at install time).
+  - **Either kind:** a reproducibility record for the reviewed commit — the
+    resolved versions the suite actually passed against. A CI `pip freeze`
+    (or `dotnet list package`) on the reviewed commit satisfies it, committed
+    or attached to the review issue. The lower bound tells a consumer what
+    they may install; only this record tells a reader what was *verified*,
+    which is what the badge asserts.
 - **R1.5 Runnable example data** — synthetic or public data bundled or
   fetched by the example, sufficient to execute the worked example. No PHI.
 - **R1.6 Reviewer sanity pass** — one reviewer confirms the worked example
