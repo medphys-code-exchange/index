@@ -1,10 +1,35 @@
 # Pilot submission — the first end-to-end pipeline test (D12).
-# Currently UNDER REVIEW (verified_date empty). Per the governance pilot
-# exception (docs/governance.md, 2026-07-24) this first run is self-reviewed
-# to exercise the mechanics; it is not an independent acceptance.
-# Pre-submission prep DONE 2026-07-25: CITATION.cff landed and v6.0.2 tagged
-# (github.com/brianmanderson/Dicom_RT_and_Images_to_Mask, commit 8e2d5c9).
-# The tagged tree passes phi_scan, vendor_binary_scan, and submission_lint.
+# Currently UNDER REVIEW (verified_date empty).
+#
+# RE-TIERED 2 -> C on 2026-07-27. Two write-back paths reach the clinic:
+# prediction_array_to_RT() writes model segmentations into an RT structure set
+# (the auto-contouring hand-off — a physicist imports, edits, and plans on the
+# result), and rewrite_RT() renames ROIs in an existing structure set and saves
+# IN PLACE. Either alone is Tier C. Full determination and the
+# whole-submission (not partial-scope) reading: docs/governance.md.
+#
+# ACCEPTANCE IS BLOCKED, and not on quality. RC.4 requires two reviewers with
+# at least one fully independent of the submitting institution; no co-lead
+# exists yet. The 2026-07-24 pilot exception permits self-review to exercise
+# the mechanics, but it explicitly does NOT extend to a Tier C acceptance —
+# that badge would assert independent clinical review that did not happen.
+# Recruiting an independent reviewer is the only thing that clears this.
+#
+# Tier C deliverables, self-assessed 2026-07-27:
+#   RC.1 validation dataset  — PARTIAL. tests/conformance.yaml + the synthetic
+#        primitives are known-correct outputs with tolerances, which is the
+#        substance of RC.1, but they are a developer pytest gate rather than
+#        something a site can run. NOT satisfied by the TCIA notebook: that
+#        data is downloaded at runtime (~3.3 GB), not bundled, and clinical
+#        contours are inputs without an oracle.
+#   RC.2 commissioning checklist — MISSING.
+#   RC.3 versioned-use statement — MISSING (README has no clinical language).
+#   RC.5 intended-use statement  — MISSING (same).
+#
+# BLOCKER ON THE REVIEWED COMMIT, independent of tier: at a5c09e6 (tag v6.1.0)
+# 8 of 9 dependencies are bare names, which R1.4/R-13 forbids outright. The
+# fix landed AFTER the tag (4152354, 8b779ca), so a new tag + GitHub Release
+# is required and reviewed_commit below must move to it.
 tool_name: "DicomRTTool"
 live_repo: "https://github.com/brianmanderson/Dicom_RT_and_Images_to_Mask"
 contact:
@@ -12,9 +37,9 @@ contact:
   email: ""              # TODO(Brian)
   institution: "University of California San Diego"
   orcid: "https://orcid.org/0000-0002-2748-1444"
-reviewed_commit: "8e2d5c9297fd528dd8b89e47a000df593439d05f"   # = tag v6.0.2
+reviewed_commit: "a5c09e6fe7f7a7ff8d30e99c14bfde83281108c7"   # = tag v6.1.0
 frozen_fork: ""          # at acceptance: medphys-code-exchange/frozen-dicomrttool
-tier: "2"
+tier: "C"
 license: "GPL-3.0-or-later"
 languages: [python]
 category: [dicom, segmentation]
