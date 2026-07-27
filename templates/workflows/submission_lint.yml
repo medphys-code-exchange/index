@@ -47,6 +47,79 @@ jobs:
             fail=1
           fi
           exit $fail
+      - name: Dependencies declare a version relation (R1.4 / R-13)
+        run: |
+          # Checks the mechanical half of R1.4 only: that every declared
+          # dependency carries SOME version relation, and that no git+
+          # reference floats. Whether the relation is RIGHT for the submission
+          # type (pins for applications, lower bounds for libraries) is a
+          # reviewer judgement and is deliberately not attempted here.
+          python - <<'PY'
+          import re, sys, pathlib, tomllib
+
+          OPS = ("==", ">=", "<=", "~=", "!=", "===", ">", "<")
+          bare, floating = [], []
+
+          def check(spec, origin):
+              s = spec.split("#")[0].strip().rstrip(",").strip().strip('"\'')
+              if not s or s.startswith("-"):
+                  return
+              if "@" in s:                      # PEP 508 direct reference
+                  url = s.split("@", 1)[1].strip()
+                  if url.startswith(("git+", "hg+", "svn+", "bzr+")):
+                      # Needs @<rev> AFTER the URL: git+https://host/repo@<sha|tag>
+                      if "@" not in url.split("://", 1)[-1]:
+                          floating.append(f"{origin}: {s}")
+                  return
+              # Strip the extras group before looking for an operator, so
+              # "pkg[all]>=1.0" is not mistaken for a bare name.
+              base = re.sub(r"\[.*?\]", "", s)
+              name = re.split(r"[<>=!~;]", base, 1)[0].strip()
+              if not name:
+                  return
+              if not any(op in base[len(name):] for op in OPS):
+                  bare.append(f"{origin}: {s}")
+
+          # Parsed with tomllib, not a regex: a non-greedy bracket match stops
+          # at the first "]", which truncates the list as soon as any
+          # dependency uses an extras group.
+          pp = pathlib.Path("pyproject.toml")
+          if pp.is_file():
+              try:
+                  data = tomllib.loads(pp.read_text(encoding="utf-8"))
+              except tomllib.TOMLDecodeError as exc:
+                  print(f"FAIL: pyproject.toml does not parse: {exc}")
+                  sys.exit(1)
+              # Runtime deps only. optional-dependencies are dev/extras and are
+              # not what a consumer installs by default.
+              for spec in data.get("project", {}).get("dependencies", []):
+                  check(spec, "pyproject.toml")
+
+          for req in sorted(pathlib.Path(".").glob("requirements*.txt")):
+              for line in req.read_text(encoding="utf-8").splitlines():
+                  check(line, req.name)
+
+          fail = False
+          if bare:
+              fail = True
+              print("FAIL: dependency declared with no version relation "
+                    "(R1.4 — a bare name is never acceptable):")
+              for b in bare:
+                  print(f"  {b}")
+              print("  Library? add a lower bound, e.g. numpy>=1.24.")
+              print("  Application? pin exactly or ship a lockfile.")
+          if floating:
+              fail = True
+              print("FAIL: VCS dependency not pinned to a commit or tag "
+                    "(R1.4 — resolves to whatever the branch holds today):")
+              for f in floating:
+                  print(f"  {f}")
+              print("  Append a revision: pkg @ git+https://host/repo@<sha>")
+          if not fail:
+              print("OK: every declared dependency carries a version relation.")
+          sys.exit(1 if fail else 0)
+          PY
+
       - name: OSI license check (CITATION.cff)
         run: |
           # Reads the SPDX id from CITATION.cff's 'license:' field and checks it
