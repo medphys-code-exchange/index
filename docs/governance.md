@@ -72,3 +72,44 @@ re-review — by the first recruited co-lead or a designated external editor —
 is required before DicomRTTool is presented as independently reviewed. This
 exception is one-time and applies to no other submission; R-2 governs in full
 for everything external.
+
+**The pilot exception does NOT extend to Tier C acceptance — 2026-07-27.**
+DicomRTTool was re-tiered from 2 to C on 2026-07-27 (determination below), and
+that changes what the exception can cover. RC.4 requires two reviewers with at
+least one *fully independent* of the submitting institution. A self-reviewed
+Tier 2 badge is a marked test artifact and reads as one; a self-reviewed Tier C
+badge would assert independent clinical-adjacent review that did not happen —
+which is the precise failure mode D7 exists to prevent, on the program's
+highest-risk tier, in its first public act. Therefore:
+
+- Tier C **review** work proceeds now: the RC.1–RC.3 and RC.5 deliverables are
+  built and self-assessed, and the submission is prepared in full.
+- Tier C **acceptance** is blocked until an independent reviewer exists. The
+  entry stays `under review` — no badge, no verified date, no DOI minted.
+- No amount of pipeline-test framing unblocks this. The constraint is the
+  absence of a second human, and only recruiting one clears it.
+
+**Tier C determination — DicomRTTool, 2026-07-27.** Recorded here because the
+tiering of the first submission sets the precedent for how the rule is read.
+The tool is predominantly a research DICOM→mask converter, which alone would be
+Tier 2. Two write-back paths move it to Tier C:
+
+1. **`prediction_array_to_RT()`** (the decisive one) — takes a model's
+   segmentation output and writes it into an RT structure set. This is the
+   auto-contouring hand-off: a physicist imports the result into a TPS, edits
+   or accepts the contours, and plans on them. Contour geometry produced here
+   directly informs a clinical decision, and a rasterization or coordinate
+   error is not visually obvious on review.
+2. **`rewrite_RT()`** — renames ROIs in an existing structure set using an
+   association map and **saves the file in place**. A wrong association
+   silently relabels an OAR that is then used in plan evaluation, and the
+   in-place save leaves no original to compare against.
+
+Either alone would be sufficient. Per "if in doubt, it's Tier C," and per the
+decision not to introduce partial-tier scoping, **the whole submission is
+Tier C** rather than Tier 2 with a carved-out clinical surface.
+
+The precedent this sets: tier follows the *most consequential path a tool
+exposes*, not the modal use case. A library whose main job is research
+conversion is still Tier C if it ships a supported route for its output to
+reach a treatment planning system.
