@@ -27,7 +27,7 @@ _No accepted tools yet._
 <!-- INDEX:REVIEW START -->
 | Tool | Tier (requested) | Live | Review |
 |---|---|---|---|
-| DicomRTTool | Tier C | [repo](https://github.com/brianmanderson/Dicom_RT_and_Images_to_Mask) | — |
+| DicomRTTool | Tier C | [repo](https://github.com/brianmanderson/Dicom_RT_and_Images_to_Mask) | [issue](https://github.com/medphys-code-exchange/index/issues/10) |
 <!-- INDEX:REVIEW END -->
 
 ## Submit a tool

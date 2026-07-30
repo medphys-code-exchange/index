@@ -51,4 +51,4 @@ test_data: "bundled-synthetic"
 doi: ""                  # version DOI, minted at acceptance (R-12)
 verified_date: ""        # empty -> shown under "Under review"
 reviewers: []            # pilot self-review (see governance pilot exception)
-review_issue: ""         # created once the org index repo exists
+review_issue: "https://github.com/medphys-code-exchange/index/issues/10"   # posted 2026-07-30
